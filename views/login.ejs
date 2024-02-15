@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head') %>
+    <title>Login Now</title>
+</head>
+<body>
+    <%- include('./partials/nav') %>
+    <% if (locals.error) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong><%= locals.error %></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+    <% } %>
+    <% if (locals.message) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong><%= locals.message %></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+    <% } %>
+        <div class="container" style="padding:30px 90px;">
+            <h1 class="text-center">Login Now</h1>
+            <form action="/user/login" method="post">
+                <div>
+                    <label for="username" class="form-label">Username/Email</label>
+                    <input type="text" id="username" name="login" class="form-control">
+                </div>
+                <div>
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" name="password" class="form-control">
+                </div>
+                
+                <div>
+                    <button type="submit" class="btn btn-outline-primary mt-3 px-5 py-2">Login</button>
+                </div>
+            </form>
+        </div>
+    <%- include('./partials/script') %>
+</body>
+</html>

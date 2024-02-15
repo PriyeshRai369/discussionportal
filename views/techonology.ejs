@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head') %>
+    <title><% tech.name %></title>
+    <link rel="stylesheet" href="/CSS/question.css">
+</head>
+<body>
+  <%- include('./partials/nav') %>
+    <% if (locals.error) { %>
+      <div class="alert alert-danger" role="alert">
+          <%= locals.error %>
+      </div>
+  <% } %>
+  
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Ask Questions of <%- tech.name %> </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="/user/question" method="post">
+                <div class="form-floating mb-3">
+                    <input type="text" id="question" name="title" class="form-control">
+                    <label for="question" class="form-level">Ask Question</label>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary w-100 mt-4">Ask</button>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary w-50" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+        <div class="px-5 mb-4 bg-body-tertiary rounded-3">
+            <div class="container-fluid py-5">
+              <h1 class="display-5 fw-bold"><%- tech.name %> founded by <%- tech.founder %></h1>
+              <p class="col-md-8 fs-4"><%- tech.description %></p>
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Ask Questions
+              </button>
+            </div>
+          </div> 
+
+          <% question.forEach((index, i) => { %>
+            <div class="questionbox">
+              <div class="askQuestion">
+                <div class="img">
+                  <img src=<%- index.askedBy.profilePicture %> alt="">
+                </div>
+                <div class="que">
+                  <h3><%- index.title %></h3>
+                  <p class="userName">ask by <%- index.askedBy.fullname %></p>
+                  <p>asked at <%- new Date(index.createdAt).toLocaleString('en-US', {
+                    weekday: 'short', 
+                    month: 'short',  
+                    day: '2-digit', 
+                    year: 'numeric', 
+                    hour: '2-digit',  
+                    minute: '2-digit', 
+                    second: '2-digit',
+                  }) %></p>
+                </div>
+              </div>
+              <hr style="margin: 0;">
+              <div class="answerBtn">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#asnwermodal<%- i %>">Answer this Question</button>
+              </div>
+              <hr style="margin: 0;">
+              
+              <% answer.forEach((ans) => { %>
+                <% if (ans.questionId.toString() === index._id.toString()) { %>
+                  <div class="answerContainer">
+                    <div class="userimg">
+                      <img src=<%= ans.answeredBy.profilePicture %> alt="">
+                    </div>
+                    <div class="answer">
+                      <p class="userAns">Answer By</p>
+                      <h4><%= ans.answeredBy.fullname %></h4>
+                      <h6><%- new Date(ans.createdAt).toLocaleString('en-US', {
+                        weekday: 'short', 
+                        month: 'short',  
+                        day: '2-digit', 
+                        year: 'numeric', 
+                        hour: '2-digit',  
+                        minute: '2-digit', 
+                        second: '2-digit',
+                      }) %></h6>
+                      <p>
+                        <%= ans.answer %>
+                      </p>
+                    </div>
+                  </div>
+                <% } %>
+              <% }); %>
+              
+            </div>
+            <div class="modal fade" id="asnwermodal<%- i %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel"></h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                      <form action="/user/answer" method="post">
+                          <div class="form-floating mb-3">
+                              <input type="text" id="question" name="question" class="form-control" value="<%- index.title %>" readonly>
+                              <label for="question" class="form-level">Question</label>
+                          </div>
+                          <div class="form-floating mb-3">
+                              <input type="text" id="question" name="answer" class="form-control">
+                              <label for="question" class="form-level">Give Answer</label>
+                          </div>
+                          <div>
+                              <button type="submit" class="btn btn-primary w-100 mt-4">Submit</button>
+                          </div>
+                      </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary w-50" data-bs-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal fade" id="asnwermodal<%- i %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            </div>
+          <% }) %>
+          
+              
+            
+    </div>
+    
+    <%- include('./partials/script') %>
+</body>
+</html>

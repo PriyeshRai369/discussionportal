@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head') %>
+        <title>Home</title>
+        <link rel="stylesheet" href="/CSS/home.css">
+</head>
+
+<body>
+    <%- include('./partials/nav') %>
+    <div class="card-container">
+    <% tech.forEach(key=> { %>
+                <div class="containers">
+                    <div class="img">
+                        <div class="nameContainer">
+                            <h3><%- key.name %></h3>
+                        </div>
+                        <div class="img-Container">
+                            <div class="imgContainer">
+                                <img src=<%- key.image %> alt="" srcset="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="textsContainer">
+                        <h3><%- key.founder %></h3>
+                    </div>
+                    <div class="descContainer">
+                        <% 
+                        const descriptionWords = key.description.split(' ');
+                        const limitedWords = descriptionWords.slice(0, 25);
+                        const limitedDescription = limitedWords.join(' ');
+                        const ellipsis = descriptionWords.length > 10 ? '...' : '';
+                        %>
+                        <p><%- limitedDescription + ellipsis %></p>
+                    </div>
+                    <div class="buttonsContainer">
+                        <div class="leftButton">
+                            <a href="/<%- key.name %>" target="_blank"><button class="btn">Explore</button></a>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+            </div>
+        <%- include('./partials/script') %>
+</body>
+
+</html>

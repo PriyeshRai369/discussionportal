@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head') %>
+    <title>Register Now</title>
+</head>
+<body>
+    <%- include('./partials/nav') %>
+    
+    <% if (locals.error) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong><%= locals.error %></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+    <% } %>
+    <% if (locals.message) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong><%= locals.message %></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+    <% } %>
+        <div class="container" style="padding:30px 90px;">
+            <h1 class="text-center">Register Now</h1>
+        <form action="/user/register" method="post" enctype="multipart/form-data">
+            <div>
+                <label for="fullname" class="form-label">Fullname <sup style="color: red;">*</sup></label>
+                <input type="text" id="fullname" name="fullname" class="form-control">
+            </div>
+        <div>
+            <label for="username" class="form-label">Username <sup style="color: red;">*</sup></label>
+            <input type="text" id="username" name="username" class="form-control">
+        </div>
+        <div>
+            <label for="email" class="form-label">Email <sup style="color: red;">*</sup></label>
+            <input type="text" id="email" name="email" class="form-control">
+        </div>
+        <div>
+            <label for="role" class="form-label">Role</label>
+            <input type="text" id="role" name="role" class="form-control" value="user" readonly>
+        </div>
+        <div>
+            <label for="password" class="form-label">Password <sup style="color: red;">*</sup></label>
+            <input type="password" id="password" name="password" class="form-control">
+        </div>
+        
+        <div class="mb-3">
+            <label for="formFile" class="form-label">Your Profile Image</label>
+            <input class="form-control" type="file" id="formFile" name="profilePicture">
+          </div>
+        <div>
+            <button type="submit" class="btn btn-outline-primary mt-3 px-5 py-2">Register</button>
+        </div>
+        </div>
+    
+    <%- include('./partials/script') %>
+</body>
+</html>
