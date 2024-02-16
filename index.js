@@ -41,12 +41,22 @@ dbConnect().then(()=>{
     app.use('/user',router);
 
     app.get('/:name',async (req,res)=>{
-        const name = req.params.name;
-        const tech = await Technology.findOne({name:name});
-        const question = await Question.find({techName:name}).populate('askedBy');
-        const qid = await Question.find(question._id);
-        const answer = await Answer.find({questionId:qid}).populate('answeredBy');
-        res.render('techonology',{tech,question,answer,user: req.user});
+        try {
+            const name = req.params.name;
+            const tech = await Technology.findOne({ name: name });
+            if (!tech) {
+                console.log("Technology not found.");
+                return res.status(404).send("Technology not found");
+            }
+    
+            const question = await Question.find({techName:name}).populate('askedBy');
+            const qid = await Question.find(question._id);
+            const answer = await Answer.find({questionId:qid}).populate('answeredBy');
+            res.render('techonology',{tech,question,answer,user: req.user});
+        } catch (error) {
+            console.error("Error:", error);
+            res.status(500).send("Internal Server Error");
+        }
     })
     app.get('/user/:id/:name',verifyToken,async(req,res)=>{
         const tech = await Technology.find();
